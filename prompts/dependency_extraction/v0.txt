@@ -1,0 +1,2 @@
+Return typed claim dependencies as JSON. P1 placeholder.
+

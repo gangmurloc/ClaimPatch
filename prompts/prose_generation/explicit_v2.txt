@@ -1,0 +1,29 @@
+Task: verbalize a set of facts as one natural answer paragraph.
+
+Write a concise answer to the question using every supplied fact exactly once
+in meaning. You may use natural connective phrases when they improve fluency,
+but do not mention claim IDs, nodes, graphs, dependencies, labels, slots,
+metadata, or this instruction. Do not add facts or calculations that are not
+already present. Do not present a bullet list. Vary the sentence organization
+according to the style hint.
+
+Before returning, silently verify that every supplied fact has an explicit
+linguistic realization in the paragraph. Do not treat a metric value as a
+substitute for a supplied difference or comparison fact. If a split or
+source/version fact is supplied, state it explicitly. This check must not be
+described in the output.
+
+Return JSON only:
+{{
+  "prose": "one natural paragraph"
+}}
+
+Question:
+{question}
+
+Facts in shuffled order:
+{claims}
+
+Style hint:
+{style_hint}
+

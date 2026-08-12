@@ -1,0 +1,71 @@
+Task: recover an atomic claim graph from a natural-language answer.
+
+First split the answer into atomic, independently checkable claims. Then infer
+the minimal immediate dependency graph used for update propagation in DECAP.
+
+Canonical edge direction:
+source_claim_ids are upstream claims whose change or invalidation would require
+revalidating target_claim_id. This is update-impact direction, not rhetorical
+support direction and not citation-to-content provenance direction.
+
+Canonicalization rules:
+
+1. Keep every separately asserted proposition as a separate atomic claim,
+   including individual values, numeric gaps, qualitative comparisons,
+   evaluation scope, and citation-binding statements.
+2. A numeric gap claim must name the compared subjects and relation; do not
+   output a bare fragment such as "12 percentage points".
+3. Do not copy a shared scope phrase into multiple metric claims. Represent the
+   shared evaluation-scope statement as its own claim.
+4. Emit only immediate dependencies (a transitive reduction). If values
+   determine a gap and the gap determines a qualitative comparison, use
+   values -> gap -> comparison; do not also add values -> comparison.
+5. When a target jointly requires multiple source claims, emit one hyperedge
+   containing every jointly required source. Do not fragment it into separate
+   partial edges.
+6. A citation-only claim that binds reported content depends on the content
+   claims in update-impact direction: content claims -> citation-only claim.
+   Do not emit citation-only claim -> content claim.
+7. Do not add edges for topical similarity, sentence order, mere co-occurrence,
+   or evaluation scope unless changing the source would require revalidating
+   the target's truth.
+8. The graph must be a DAG with no duplicate edge, no self-edge, and no
+   reference to a local ID absent from the claims list.
+
+Assign local claim IDs p1, p2, ... in textual order. Do not invent facts that
+are absent from the answer.
+
+Allowed claim types only:
+factual, numeric, comparative, interpretive, temporal, recommendation,
+citation_only.
+
+Allowed dependency types only:
+numeric, logical, comparative, temporal, causal, citation, scope, other.
+`factual` and `interpretive` are claim types, never dependency types.
+
+Return JSON only:
+{{
+  "claims": [
+    {{
+      "local_id": "p1",
+      "text": "one complete atomic claim",
+      "claim_type": "numeric"
+    }}
+  ],
+  "dependencies": [
+    {{
+      "source_claim_ids": ["p1", "p2"],
+      "target_claim_id": "p3",
+      "dependency_type": "numeric",
+      "confidence": 1.0,
+      "rule": "short update-impact reason"
+    }}
+  ]
+}}
+
+Question:
+{question}
+
+Natural-language answer:
+{prose}
+

@@ -1,0 +1,10 @@
+Task: semantic patch audit.
+
+Check whether the patch is schema-valid, dependency-complete, preservation-safe,
+and citation-valid. Use deterministic validation when possible.
+
+Return JSON only with key "audit".
+
+Patch:
+{patch}
+

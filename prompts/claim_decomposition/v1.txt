@@ -1,0 +1,11 @@
+Task: claim decomposition.
+
+Split the rendered answer into atomic verifiable claims. Separate numeric,
+comparative, factual, interpretive, and citation-only claims. Preserve enough
+metadata to reconstruct the original answer order.
+
+Return JSON only with key "claims".
+
+Rendered answer:
+{answer_text}
+

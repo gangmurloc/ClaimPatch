@@ -1,0 +1,37 @@
+seed: 3031
+run_id: p1_prompted_local_llama31_borderline100_seed3031_metadata_hard
+stage_title: DECAP P1 Local Llama 3.1 Borderline Held-Out 100 Seed 3031 Hard Metadata Ablation
+output_dir: outputs/p1_prompted_local_llama31_borderline100_seed3031_metadata_hard
+dataset:
+  size: 100
+  domain: benchmark_results
+  profile: borderline
+  sequential_steps: 1
+  name: benchmark_results_borderline_100_seed3031.jsonl
+systems:
+  - p1_prompted_local
+model:
+  backend: local_transformers
+  model_name: meta-llama/Llama-3.1-8B-Instruct
+  revision:
+  local_files_only: true
+  torch_dtype: bf16
+  device_map: auto
+  load_in_4bit: false
+  max_new_tokens: 1536
+  do_sample: false
+  temperature: 0.0
+bootstrap:
+  samples: 1000
+bootstrap_metrics:
+  - dependency_complete_success
+  - collateral_edit_rate
+  - residual_stale_rate
+  - patch_precision
+  - patch_recall
+primary_system: p1_prompted_local
+bootstrap_against: []
+prompted:
+  enable_schema_repair: true
+  metadata_ablation: hard
+interpretation: "Second-model hard metadata ablation on the borderline held-out split. This tests whether the Qwen2.5-7B threshold-hold over-edit failure mode transfers to Llama-3.1-8B-Instruct with prompts/evaluation fixed."

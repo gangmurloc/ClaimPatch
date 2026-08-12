@@ -1,0 +1,41 @@
+seed: 13
+run_id: p1_prompted_local_qwen_full100x3
+stage_title: DECAP P1 Local Qwen Structured Full 100x3
+output_dir: outputs/p1_prompted_local_qwen_full100x3
+dataset:
+  size: 100
+  domain: benchmark_results
+  sequential_steps: 3
+systems:
+  - p1_prompted_local
+  - unstructured_selective_edit
+  - attribute_no_graph
+  - descendant_all
+  - full_regeneration
+model:
+  backend: local_transformers
+  model_name: Qwen/Qwen2.5-7B-Instruct
+  revision:
+  local_files_only: true
+  torch_dtype: bf16
+  device_map: auto
+  load_in_4bit: false
+  max_new_tokens: 1536
+  do_sample: false
+  temperature: 0.0
+bootstrap:
+  samples: 1000
+bootstrap_metrics:
+  - dependency_complete_success
+  - collateral_edit_rate
+  - residual_stale_rate
+  - patch_precision
+  - patch_recall
+primary_system: p1_prompted_local
+bootstrap_against:
+  - unstructured_selective_edit
+  - attribute_no_graph
+  - descendant_all
+prompted:
+  enable_schema_repair: true
+interpretation: "Large sequential local-transformers diagnostic. Run only after 20/100 smoke and held-out checks pass."

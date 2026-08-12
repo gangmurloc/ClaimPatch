@@ -1,0 +1,72 @@
+Task: impact classification for an evidence update.
+
+For each active claim, choose exactly one state. You must return one
+`impact_labels` entry for every active claim ID in the answer version, including
+claims that remain STILL_VALID. Do not omit preserved claims. Do not return only
+changed claims.
+
+State definitions:
+- MUST_CHANGE: the claim is false, inaccurate, stale, or has stale citation binding.
+- STILL_VALID: related evidence changed but the claim remains true and correctly bound.
+- UNCERTAIN: the new evidence is insufficient to decide.
+
+Use typed dependencies to propagate candidate impact, then semantically
+revalidate descendants. Do not mark every descendant MUST_CHANGE automatically.
+
+DECAP-specific decision rules:
+- Numeric source claim changed -> mark that numeric claim MUST_CHANGE with
+  gold_operation REPLACE.
+- In benchmark-result examples, use `update.metadata.attribute` as the slot
+  identity. If `attribute` is `a_accuracy`, the A accuracy claim may change and
+  the B accuracy claim remains STILL_VALID unless its own old/new value differs.
+  If `attribute` is `b_accuracy`, the B accuracy claim may change and the A
+  accuracy claim remains STILL_VALID unless its own old/new value differs.
+- Do not swap A-side and B-side metric updates. A B-side revision must not
+  rewrite the A accuracy claim merely because downstream difference/comparison
+  claims mention both models.
+- If an evidence/source version changes but the numeric value is unchanged,
+  keep numeric value claims STILL_VALID. Do not REPLACE numeric claims solely for
+  citation refresh. Use REBIND only for citation-only claims.
+- Numeric derived claim such as a difference changed -> mark MUST_CHANGE with
+  gold_operation REPLACE.
+- Comparative/qualitative claim is not automatically stale when a numeric parent
+  changes. Mark it MUST_CHANGE only if the qualitative category/wording changes.
+  If the old and new update metadata show the same category, mark the
+  comparative claim STILL_VALID.
+- Treat `old_category` and `new_category` in update metadata as authoritative
+  for benchmark-result examples: unequal categories -> comparative claim
+  MUST_CHANGE; equal categories -> comparative claim STILL_VALID.
+- Citation-only claim must be marked MUST_CHANGE with gold_operation REBIND
+  whenever metric evidence IDs/source versions change, including B-side metric
+  revisions.
+- Do not use REBIND for numeric or comparative claim text changes. Use REPLACE
+  for those.
+
+Return JSON only in this shape:
+{{
+  "impact_labels": [
+    {{
+      "claim_id": "c1",
+      "state": "MUST_CHANGE",
+      "direct": true,
+      "reason": "short reason",
+      "gold_operation": "REPLACE"
+    }}
+  ]
+}}
+
+`gold_operation` must be one of REPLACE, DELETE, INSERT, SPLIT, MERGE, REBIND,
+INVALIDATE, or null.
+
+Citation-only claims must be marked MUST_CHANGE with gold_operation REBIND when
+their evidence IDs/source version need to move to the updated evidence, even if
+the factual numeric values remain valid.
+
+Answer version:
+{answer}
+
+Evidence update:
+{update}
+
+Dependencies:
+{dependencies}

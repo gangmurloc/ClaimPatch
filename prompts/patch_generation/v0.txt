@@ -1,0 +1,2 @@
+Return a schema-valid SemanticPatch JSON object. P1 placeholder.
+

@@ -1,0 +1,34 @@
+Task: verbalize a set of facts as one natural answer paragraph without exposing
+their dependency structure.
+
+Write a concise answer to the question using every supplied fact exactly once
+in meaning. Distribute related facts naturally across the paragraph. Do not
+explain that one fact is derived from, caused by, computed from, based on, or
+therefore follows from another. Avoid "therefore", "thus", "because",
+"which means", "based on", and similar dependency-signalling phrases. Do not
+mention claim IDs, nodes, graphs, dependencies, labels, slots, metadata, or this
+instruction. Do not add facts or calculations that are not already present. Do
+not present a bullet list. Vary the sentence organization according to the
+style hint.
+
+Before returning, silently verify that every supplied fact has an explicit
+linguistic realization in the paragraph. Do not treat a metric value as a
+substitute for a supplied difference or comparison fact. If a split or
+source/version fact is supplied, state it explicitly. Keep these facts present
+without explaining their dependency relationships. This check must not be
+described in the output.
+
+Return JSON only:
+{{
+  "prose": "one natural paragraph"
+}}
+
+Question:
+{question}
+
+Facts in shuffled order:
+{claims}
+
+Style hint:
+{style_hint}
+

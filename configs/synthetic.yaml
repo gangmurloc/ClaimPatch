@@ -1,0 +1,7 @@
+seed: 13
+dataset:
+  size: 100
+  domain: benchmark_results
+  levels: [1, 2, 3, 4, 5, 6]
+output_path: data/synthetic/benchmark_results_100.jsonl
+

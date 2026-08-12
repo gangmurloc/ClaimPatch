@@ -1,0 +1,11 @@
+Task: minimal edit baseline.
+
+Given the current answer and evidence update, rewrite as little as possible.
+This baseline returns a full revised answer, not an executable patch.
+
+Current answer:
+{current_answer}
+
+Evidence update:
+{update}
+

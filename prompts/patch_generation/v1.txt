@@ -1,0 +1,70 @@
+Task: executable semantic patch generation.
+
+Generate the smallest schema-valid SemanticPatch that handles every
+MUST_CHANGE claim and preserves STILL_VALID claims. Use only allowed
+operations: REPLACE, DELETE, INSERT, SPLIT, MERGE, REBIND, INVALIDATE.
+
+Rules:
+- Include preconditions for touched and preserved active claims.
+- Do not rewrite preserved claims.
+- New or rebound claims must use evidence IDs that exist in the fresh target.
+- Return JSON only with key "semantic_patch".
+- For REPLACE, include exactly one full replacement ClaimNode in `new_claims`.
+- The replacement ClaimNode must be copied from `fresh_target.claims` using the
+  same `claim_id` as the old claim.
+- For REBIND, keep `new_claims` empty and set `new_evidence_ids`.
+- Every operation must include a non-empty `reason`.
+- `dependency_updates` is optional. Prefer `dependency_updates: []` unless a
+  dependency edge truly changes. If you include dependency updates, every edge
+  must include `source_claim_ids`, `target_claim_id`, `dependency_type`,
+  `confidence`, `rule`, and `metadata`.
+
+Return JSON only in this shape:
+{{
+  "semantic_patch": {{
+    "patch_id": "patch_id",
+    "answer_id": "answer_id",
+    "from_version": 0,
+    "to_version": 1,
+    "preconditions": [
+      {{"claim_id": "c1", "expected_version": 0, "expected_status": "active"}}
+    ],
+    "operations": [
+      {{
+        "op": "REPLACE",
+        "claim_ids": ["c1"],
+        "new_claims": [
+          {{
+            "claim_id": "c1",
+            "answer_id": "answer_id",
+            "version": 1,
+            "text": "replacement claim text",
+            "normalized_form": "replacement claim text",
+            "claim_type": "numeric",
+            "evidence_ids": ["e_new"],
+            "status": "active",
+            "valid_from": 1,
+            "valid_until": null,
+            "metadata": {{}}
+          }}
+        ],
+        "old_evidence_ids": [],
+        "new_evidence_ids": [],
+        "reason": "short reason",
+        "dependency_updates": []
+      }}
+    ],
+    "preserve_claim_ids": [],
+    "postconditions": ["schema_valid"],
+    "metadata": {{}}
+  }}
+}}
+
+Current answer:
+{current_answer}
+
+Fresh target answer:
+{fresh_target}
+
+Impact labels:
+{impact_labels}

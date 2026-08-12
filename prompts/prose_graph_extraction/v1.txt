@@ -1,0 +1,43 @@
+Task: recover an atomic claim graph from a natural-language answer.
+
+First split the answer into atomic, independently checkable claims. Then infer
+semantic dependencies between those claims. A dependency exists when changing
+or invalidating every source claim would require revalidating the target claim.
+Do not infer an edge from topical similarity or sentence order alone.
+
+Assign local claim IDs p1, p2, ... in textual order. Do not invent facts that
+are absent from the answer.
+
+Allowed claim types:
+factual, numeric, comparative, interpretive, temporal, recommendation,
+citation_only.
+
+Allowed dependency types:
+numeric, logical, comparative, temporal, causal, citation, scope, other.
+
+Return JSON only:
+{{
+  "claims": [
+    {{
+      "local_id": "p1",
+      "text": "one atomic claim",
+      "claim_type": "numeric"
+    }}
+  ],
+  "dependencies": [
+    {{
+      "source_claim_ids": ["p1"],
+      "target_claim_id": "p2",
+      "dependency_type": "numeric",
+      "confidence": 1.0,
+      "rule": "short semantic reason"
+    }}
+  ]
+}}
+
+Question:
+{question}
+
+Natural-language answer:
+{prose}
+

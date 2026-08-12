@@ -1,0 +1,30 @@
+Task: typed dependency extraction for DECAP.
+
+Judge semantic dependency, not string similarity. A dependency exists when a
+change to the source claim would require revalidating the target claim.
+
+Allowed dependency types:
+numeric, logical, comparative, temporal, causal, citation, scope, other.
+
+Return JSON only in this shape:
+{{
+  "dependencies": [
+    {{
+      "source_claim_ids": ["c1"],
+      "target_claim_id": "c2",
+      "dependency_type": "numeric",
+      "confidence": 1.0,
+      "rule": "short reason",
+      "metadata": {{}}
+    }}
+  ]
+}}
+
+Use only claim IDs that appear below. Do not invent claim IDs.
+
+Question:
+{question}
+
+Claims:
+{claims}
+

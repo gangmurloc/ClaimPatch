@@ -1,0 +1,43 @@
+Task: unstructured selective evidence update editing.
+
+You are a baseline editor. You do not receive a dependency graph. Decide, from
+the current answer claims and the evidence update only, which claims should be
+edited after the evidence changes.
+
+For every active claim in the current answer, return exactly one impact label.
+Do not omit preserved claims.
+
+State definitions:
+- MUST_CHANGE: the claim itself is false, stale, or has a stale citation binding.
+- STILL_VALID: the claim remains true and correctly bound.
+- UNCERTAIN: the evidence update is insufficient to decide.
+
+Important restrictions:
+- Do not infer hidden typed dependencies beyond what is obvious from the claim
+  text itself. This is intentionally a graph-free baseline.
+- Use REPLACE for claim text changes.
+- Use REBIND only for citation-only claims whose text can be preserved while
+  evidence IDs/source versions move to updated evidence.
+- Do not mark every claim MUST_CHANGE just because some evidence changed.
+
+Return JSON only in this shape:
+{{
+  "impact_labels": [
+    {{
+      "claim_id": "c1",
+      "state": "MUST_CHANGE",
+      "direct": true,
+      "reason": "short reason",
+      "gold_operation": "REPLACE"
+    }}
+  ]
+}}
+
+`gold_operation` must be one of REPLACE, DELETE, INSERT, SPLIT, MERGE, REBIND,
+INVALIDATE, or null.
+
+Current answer:
+{current_answer}
+
+Evidence update:
+{update}

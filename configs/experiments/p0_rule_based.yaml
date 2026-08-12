@@ -1,0 +1,20 @@
+seed: 13
+run_id: p0_rule_based_100
+stage_title: DECAP P0 Rule-Based Synthetic Experiment
+output_dir: outputs/p0
+dataset:
+  size: 100
+  domain: benchmark_results
+  sequential_steps: 3
+systems:
+  - decap_rule
+  - direct_only
+  - attribute_no_graph
+  - descendant_all
+  - full_regeneration
+bootstrap:
+  samples: 1000
+primary_system: decap_rule
+bootstrap_against:
+  - direct_only
+  - attribute_no_graph

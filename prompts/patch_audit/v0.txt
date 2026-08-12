@@ -1,0 +1,2 @@
+Audit only cases that deterministic validation cannot resolve. P1 placeholder.
+

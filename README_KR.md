@@ -83,7 +83,7 @@ CUDA_VISIBLE_DEVICES=0 sh scripts/run_p1_local_full100x3.sh
 
 ## 저자
 
-**Gangil Lee** — Undergraduate Researcher, NLP Laboratory, Hallym University
+**Ganggil Lee** — Undergraduate Researcher, NLP Laboratory, Hallym University
 
 ## 라이선스
 

@@ -4,7 +4,7 @@ title: "DECAP: Dependency-Complete Semantic Patching for Evolving LLM Answers"
 type: software
 authors:
   - family-names: Lee
-    given-names: Gangil
+    given-names: Ganggil
 repository-code: "https://github.com/gangmurloc/DECAP"
 version: 0.1.0
 date-released: 2026-08-12

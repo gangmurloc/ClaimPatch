@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 IGNORED_PARTS = {".git", ".venv", "__pycache__", ".pytest_cache"}
 GENERATED_ROOTS = {"data", "outputs"}
-TEXT_SUFFIXES = {".cff", ".csv", ".json", ".md", ".py", ".sh", ".toml", ".txt", ".yaml", ".yml"}
+TEXT_SUFFIXES = {".cff", ".csv", ".json", ".md", ".py", ".sh", ".svg", ".toml", ".txt", ".yaml", ".yml"}
 SENSITIVE_PATTERNS = {
     "absolute_home_path": re.compile(r"/home/[A-Za-z0-9._-]+/"),
     "email_address": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.I),
@@ -45,6 +45,9 @@ def main() -> None:
         ROOT / "README.md",
         ROOT / "README_KR.md",
         ROOT / "pyproject.toml",
+        ROOT / "docs" / "related_work.md",
+        ROOT / "docs" / "assets" / "dcs_collateral_tradeoff.svg",
+        ROOT / "environment" / "reported_qwen_run.md",
         ROOT / "results" / "p1_qwen_sequential_100x3" / "metrics.json",
     ]
     for path in required:

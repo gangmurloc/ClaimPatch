@@ -41,6 +41,40 @@ Supported patch operations are `REPLACE`, `DELETE`, `INSERT`, `SPLIT`,
 copy-on-write execution prevent a malformed patch from partially mutating the
 stored answer.
 
+## What makes DECAP different
+
+DECAP does not edit model weights, and it is not a generic factuality scorer or
+an unconstrained answer rewriter. Its object of maintenance is an already
+generated, evidence-grounded answer. Given an evidence delta, it identifies
+directly stale claims, follows explicit dependencies, revalidates downstream
+claims, and emits a minimal executable patch with preservation constraints.
+
+The closest neighboring areas are post-hoc factual revision, claim-level
+attribution, knowledge editing, and stale-memory maintenance. A concise
+comparison with representative work—including RARR, PaperTrail, FActScore,
+ROME, MEMIT, STALE, and Supersede—is available in
+[`docs/related_work.md`](docs/related_work.md).
+
+## Patch example
+
+Suppose two systems initially score 82% and 77%. A revised report lowers the
+first score to 81%. The numeric difference changes from five to four percentage
+points, but the qualitative relation remains *outperforms* under the benchmark
+threshold.
+
+```mermaid
+flowchart LR
+    A["C1: A accuracy 82% → 81%<br/>REPLACE"] --> D["C3: gap 5 → 4 points<br/>REPLACE"]
+    B["C2: B accuracy 77%<br/>PRESERVE"] --> D
+    D --> Q["C4: A outperforms B<br/>PRESERVE"]
+    A --> R["C5: report-v1 citation → report-v2<br/>REBIND"]
+    B --> R
+```
+
+A direct-only editor can miss `C3` and the citation update. An update-all-
+descendants policy changes `C4` even though it is still true. DECAP separates
+dependency reachability from the semantic decision to revise or preserve.
+
 ## Representative result
 
 The main included diagnostic uses Qwen2.5-7B-Instruct on 100 synthetic
@@ -67,6 +101,12 @@ Exact aggregate files are under
 [`results/p1_qwen_sequential_100x3/`](results/p1_qwen_sequential_100x3/).
 Held-out, metadata-ablation, and second-model diagnostics are summarized in
 [`results/diagnostics/`](results/diagnostics/).
+
+The DCS–collateral-edit trade-off is shown below. The aggressive descendant-all
+policy maximizes DCS by editing more valid claims, whereas DECAP occupies a more
+selective operating point.
+
+![DCS versus collateral-edit trade-off](docs/assets/dcs_collateral_tradeoff.svg)
 
 ## Install
 
@@ -132,7 +172,9 @@ CUDA_VISIBLE_DEVICES=0 sh scripts/run_p1_local_full100x3.sh
 
 See [architecture](docs/architecture.md),
 [evaluation definitions](docs/evaluation.md), and
-[reproducibility notes](docs/reproducibility.md) for details.
+[reproducibility notes](docs/reproducibility.md) for details. The archived
+Qwen-run environment record is in
+[`environment/reported_qwen_run.md`](environment/reported_qwen_run.md).
 
 ## Research boundaries
 
@@ -161,4 +203,3 @@ No open-source license has been selected yet. Public visibility alone does not
 grant permission to copy, modify, or redistribute this code. Local model
 weights are not included; users must follow each model provider's terms. See
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
-

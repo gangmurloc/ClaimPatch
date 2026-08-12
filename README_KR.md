@@ -31,6 +31,25 @@ flowchart LR
 문장만 고치면 파생 비교나 인용이 오래된 상태로 남을 수 있습니다. DECAP은
 이 문제를 자유 생성이 아니라 의존성과 트랜잭션의 문제로 다룹니다.
 
+DECAP은 모델 가중치를 수정하는 knowledge editing이나 단순 factuality
+scoring이 아닙니다. 이미 생성된 근거 기반 답변을 유지보수 대상으로 삼아,
+근거 변경 뒤 직접·간접 영향을 추적하고 여전히 참인 파생 주장을 보존합니다.
+대표 인접 연구와의 차이는 [Related Work](docs/related_work.md)에 정리했습니다.
+
+## 패치 예시
+
+Model A와 B의 정확도가 각각 82%, 77%였고 새 보고서에서 A가 81%로
+변했다고 가정합니다. 수치와 차이, 인용은 갱신해야 하지만 `A outperforms
+B`라는 정성 비교는 여전히 참이므로 보존합니다.
+
+```mermaid
+flowchart LR
+    A["A 정확도 82 → 81<br/>REPLACE"] --> D["차이 5 → 4<br/>REPLACE"]
+    B["B 정확도 77<br/>PRESERVE"] --> D
+    D --> Q["A outperforms B<br/>PRESERVE"]
+    A --> R["보고서 인용 v1 → v2<br/>REBIND"]
+```
+
 ## 대표 결과
 
 Qwen2.5-7B-Instruct를 사용해 합성 인스턴스 100개에 순차 근거 변경을
@@ -49,6 +68,8 @@ Qwen2.5-7B-Instruct를 사용해 합성 인스턴스 100개에 순차 근거 변
 **[0.257, 0.380]**입니다. 모든 후손을 무조건 수정하는 정책은 DCS가 더
 높지만 불필요한 편집도 더 많습니다. DECAP의 목표는 의존성 누락과
 과잉 수정을 함께 줄이는 것입니다.
+
+![DCS와 불필요 편집 간 trade-off](docs/assets/dcs_collateral_tradeoff.svg)
 
 ## 설치 및 빠른 실행
 
@@ -90,4 +111,3 @@ CUDA_VISIBLE_DEVICES=0 sh scripts/run_p1_local_full100x3.sh
 아직 오픈소스 라이선스를 선택하지 않았습니다. 공개 저장소라는 사실만으로
 코드의 복제·수정·재배포 권한이 부여되지는 않습니다. 모델 가중치는 포함하지
 않으며 각 제공자의 이용 조건을 따라야 합니다.
-

@@ -150,7 +150,7 @@ These boundaries are part of the artifact, not hidden caveats. See
 
 ## Author
 
-**Gangil Lee** — Undergraduate Researcher, NLP Laboratory, Hallym University
+**Ganggil Lee** — Undergraduate Researcher, NLP Laboratory, Hallym University
 
 Research interests: natural language processing, large language models,
 retrieval-augmented generation, and reliable model evaluation.

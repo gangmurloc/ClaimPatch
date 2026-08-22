@@ -1,12 +1,12 @@
-# DECAP
+# ClaimPatch
 
-[![Tests](https://github.com/gangmurloc/DECAP/actions/workflows/tests.yml/badge.svg)](https://github.com/gangmurloc/DECAP/actions/workflows/tests.yml)
+[![Tests](https://github.com/gangmurloc/ClaimPatch/actions/workflows/tests.yml/badge.svg)](https://github.com/gangmurloc/ClaimPatch/actions/workflows/tests.yml)
 
 [한국어 README](README_KR.md)
 
 **Dependency-Complete Semantic Patching for Evolving LLM Answers**
 
-DECAP asks a focused question: when the evidence behind a long-form answer
+ClaimPatch asks a focused question: when the evidence behind a long-form answer
 changes, can a system update every affected downstream claim while preserving
 claims that remain valid? It represents an answer as a versioned claim graph,
 predicts which claims must change, emits an executable semantic patch, and
@@ -22,8 +22,8 @@ excluded.
 
 Regenerating an entire answer after a small evidence update can introduce
 collateral changes. Editing only the directly mentioned sentence can leave
-derived comparisons or citations stale. DECAP treats revision as a dependency
-and transaction problem rather than unconstrained rewriting.
+derived comparisons or citations stale. ClaimPatch treats revision as a
+dependency and transaction problem rather than unconstrained rewriting.
 
 ```mermaid
 flowchart LR
@@ -41,10 +41,10 @@ Supported patch operations are `REPLACE`, `DELETE`, `INSERT`, `SPLIT`,
 copy-on-write execution prevent a malformed patch from partially mutating the
 stored answer.
 
-## What makes DECAP different
+## What makes ClaimPatch different
 
-DECAP does not edit model weights, and it is not a generic factuality scorer or
-an unconstrained answer rewriter. Its object of maintenance is an already
+ClaimPatch does not edit model weights, and it is not a generic factuality
+scorer or an unconstrained answer rewriter. Its object of maintenance is an already
 generated, evidence-grounded answer. Given an evidence delta, it identifies
 directly stale claims, follows explicit dependencies, revalidates downstream
 claims, and emits a minimal executable patch with preservation constraints.
@@ -72,8 +72,8 @@ flowchart LR
 ```
 
 A direct-only editor can miss `C3` and the citation update. An update-all-
-descendants policy changes `C4` even though it is still true. DECAP separates
-dependency reachability from the semantic decision to revise or preserve.
+descendants policy changes `C4` even though it is still true. ClaimPatch
+separates dependency reachability from the semantic decision to revise or preserve.
 
 ## Representative result
 
@@ -84,7 +84,7 @@ real-world robustness.
 
 | System | DCS | Patch precision | Patch recall | Collateral edit | Residual stale |
 |---|---:|---:|---:|---:|---:|
-| DECAP prompted | **0.820** | **0.835** | **0.926** | **0.183** | **0.074** |
+| ClaimPatch prompted | **0.820** | **0.835** | **0.926** | **0.183** | **0.074** |
 | Unstructured selective edit | 0.500 | 0.780 | 0.807 | 0.223 | 0.193 |
 | Attribute-only, no graph | 0.250 | 1.000 | 0.662 | 0.000 | 0.338 |
 | Update all descendants | 1.000 | 0.745 | 1.000 | 0.273 | 0.000 |
@@ -93,7 +93,7 @@ real-world robustness.
 `DCS` is dependency-complete success: every claim that must change is changed,
 with no required update omitted. Against unstructured selective editing, the
 paired DCS difference is **+0.320**, with a 95% bootstrap interval of
-**[0.257, 0.380]**. DECAP does not dominate the deliberately aggressive
+**[0.257, 0.380]**. ClaimPatch does not dominate the deliberately aggressive
 descendant-all oracle-like policy on DCS; its purpose is to reduce unnecessary
 editing while retaining dependency coverage.
 
@@ -103,16 +103,16 @@ Held-out, metadata-ablation, and second-model diagnostics are summarized in
 [`results/diagnostics/`](results/diagnostics/).
 
 The DCS–collateral-edit trade-off is shown below. The aggressive descendant-all
-policy maximizes DCS by editing more valid claims, whereas DECAP occupies a more
-selective operating point.
+policy maximizes DCS by editing more valid claims, whereas ClaimPatch occupies
+a more selective operating point.
 
 ![DCS versus collateral-edit trade-off](docs/assets/dcs_collateral_tradeoff.svg)
 
 ## Install
 
 ```bash
-git clone https://github.com/gangmurloc/DECAP.git
-cd DECAP
+git clone https://github.com/gangmurloc/ClaimPatch.git
+cd ClaimPatch
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
@@ -130,13 +130,13 @@ pip install -e ".[dev,local]"
 Run the deterministic 100-instance, three-update benchmark:
 
 ```bash
-decap run-p0 --config configs/experiments/p0_rule_based.yaml
+claimpatch run-p0 --config configs/experiments/p0_rule_based.yaml
 ```
 
 Run a fast smoke test:
 
 ```bash
-decap run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
+claimpatch run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
 pytest -q
 ```
 
@@ -145,7 +145,7 @@ parsing, schema validation, patch execution, and evaluation without an external
 model:
 
 ```bash
-decap run-p1 --config configs/experiments/p1_prompted.yaml --limit 4
+claimpatch run-p1 --config configs/experiments/p1_prompted.yaml --limit 4
 ```
 
 For the reported local-Qwen protocol, first ensure the model is available in
@@ -159,12 +159,12 @@ CUDA_VISIBLE_DEVICES=0 sh scripts/run_p1_local_full100x3.sh
 
 | Path | Purpose |
 |---|---|
-| `src/decap/schemas/` | Typed evidence, claim, graph, update, and patch contracts |
-| `src/decap/graph/` | Dependency validation, traversal, and versioning |
-| `src/decap/impact/` | Direct-impact detection and dependency propagation |
-| `src/decap/patch/` | Patch construction, validation, audit, and execution |
-| `src/decap/pipelines/` | Deterministic, prompted, and prose-adapter pipelines |
-| `src/decap/evaluation/` | DCS, preservation, citation, cost, and bootstrap metrics |
+| `src/claimpatch/schemas/` | Typed evidence, claim, graph, update, and patch contracts |
+| `src/claimpatch/graph/` | Dependency validation, traversal, and versioning |
+| `src/claimpatch/impact/` | Direct-impact detection and dependency propagation |
+| `src/claimpatch/patch/` | Patch construction, validation, audit, and execution |
+| `src/claimpatch/pipelines/` | Deterministic, prompted, and prose-adapter pipelines |
+| `src/claimpatch/evaluation/` | DCS, preservation, citation, cost, and bootstrap metrics |
 | `prompts/` | Versioned structured-generation prompts |
 | `configs/experiments/` | Reproduction and diagnostic configurations |
 | `results/` | Compact aggregate artifacts; no raw model generations |
@@ -185,7 +185,7 @@ Qwen-run environment record is in
 - Approximate token savings are claim-footprint estimates, not tokenizer-level
   cost measurements.
 - The Llama diagnostic replicates a specific invariance-under-change failure
-  mode; it is not a full multi-backbone validation of DECAP.
+  mode; it is not a full multi-backbone validation of ClaimPatch.
 
 These boundaries are part of the artifact, not hidden caveats. See
 [`docs/research_status.md`](docs/research_status.md).

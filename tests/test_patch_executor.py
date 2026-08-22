@@ -1,9 +1,9 @@
 import pytest
 
-from decap.data.synthetic_generator import generate_benchmark_instance
-from decap.patch.executor import PatchExecutionError, apply_patch_transaction
-from decap.schemas.claims import ClaimNode
-from decap.schemas.patches import PatchOperation, PatchPrecondition, SemanticPatch
+from claimpatch.data.synthetic_generator import generate_benchmark_instance
+from claimpatch.patch.executor import PatchExecutionError, apply_patch_transaction
+from claimpatch.schemas.claims import ClaimNode
+from claimpatch.schemas.patches import PatchOperation, PatchPrecondition, SemanticPatch
 
 
 def _instance():

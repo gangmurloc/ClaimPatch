@@ -1,9 +1,9 @@
-from decap.baselines.descendant_all import descendant_all_labels
-from decap.baselines.attribute_no_graph import attribute_no_graph_labels
-from decap.baselines.independent_claim_revision import direct_only_labels
-from decap.data.synthetic_generator import _category, generate_benchmark_instance, generate_synthetic_dataset
-from decap.impact.direct import directly_impacted_claims
-from decap.impact.propagation import rule_based_impact
+from claimpatch.baselines.descendant_all import descendant_all_labels
+from claimpatch.baselines.attribute_no_graph import attribute_no_graph_labels
+from claimpatch.baselines.independent_claim_revision import direct_only_labels
+from claimpatch.data.synthetic_generator import _category, generate_benchmark_instance, generate_synthetic_dataset
+from claimpatch.impact.direct import directly_impacted_claims
+from claimpatch.impact.propagation import rule_based_impact
 
 
 def test_direct_impact_detects_changed_metric_claim():

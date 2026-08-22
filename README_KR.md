@@ -1,10 +1,10 @@
-# DECAP
+# ClaimPatch
 
 [English README](README.md)
 
 **변화하는 LLM 답변을 위한 의존성 완전 의미 패칭**
 
-DECAP은 기존 장문 답변의 근거가 바뀌었을 때 직접 수정 대상뿐 아니라
+ClaimPatch는 기존 장문 답변의 근거가 바뀌었을 때 직접 수정 대상뿐 아니라
 그에 의존하는 파생 주장까지 갱신하면서, 여전히 유효한 주장은 보존할 수
 있는지를 연구하는 프로토타입입니다. 답변을 버전이 있는 claim graph로
 표현하고, 변경 영향을 판정해 실행 가능한 semantic patch를 만든 뒤
@@ -28,10 +28,10 @@ flowchart LR
 ```
 
 전체 답변을 다시 생성하면 불필요한 문장까지 바뀔 수 있고, 직접 언급된
-문장만 고치면 파생 비교나 인용이 오래된 상태로 남을 수 있습니다. DECAP은
+문장만 고치면 파생 비교나 인용이 오래된 상태로 남을 수 있습니다. ClaimPatch는
 이 문제를 자유 생성이 아니라 의존성과 트랜잭션의 문제로 다룹니다.
 
-DECAP은 모델 가중치를 수정하는 knowledge editing이나 단순 factuality
+ClaimPatch는 모델 가중치를 수정하는 knowledge editing이나 단순 factuality
 scoring이 아닙니다. 이미 생성된 근거 기반 답변을 유지보수 대상으로 삼아,
 근거 변경 뒤 직접·간접 영향을 추적하고 여전히 참인 파생 주장을 보존합니다.
 대표 인접 연구와의 차이는 [Related Work](docs/related_work.md)에 정리했습니다.
@@ -58,7 +58,7 @@ Qwen2.5-7B-Instruct를 사용해 합성 인스턴스 100개에 순차 근거 변
 
 | 시스템 | DCS | 패치 정밀도 | 패치 재현율 | 불필요 편집 | 미수정 잔존 |
 |---|---:|---:|---:|---:|---:|
-| DECAP prompted | **0.820** | **0.835** | **0.926** | **0.183** | **0.074** |
+| ClaimPatch prompted | **0.820** | **0.835** | **0.926** | **0.183** | **0.074** |
 | 비구조 선택 편집 | 0.500 | 0.780 | 0.807 | 0.223 | 0.193 |
 | 그래프 없는 속성 기반 | 0.250 | 1.000 | 0.662 | 0.000 | 0.338 |
 | 모든 후손 갱신 | 1.000 | 0.745 | 1.000 | 0.273 | 0.000 |
@@ -66,7 +66,7 @@ Qwen2.5-7B-Instruct를 사용해 합성 인스턴스 100개에 순차 근거 변
 
 비구조 선택 편집 대비 DCS 차이는 **+0.320**, 95% bootstrap 구간은
 **[0.257, 0.380]**입니다. 모든 후손을 무조건 수정하는 정책은 DCS가 더
-높지만 불필요한 편집도 더 많습니다. DECAP의 목표는 의존성 누락과
+높지만 불필요한 편집도 더 많습니다. ClaimPatch의 목표는 의존성 누락과
 과잉 수정을 함께 줄이는 것입니다.
 
 ![DCS와 불필요 편집 간 trade-off](docs/assets/dcs_collateral_tradeoff.svg)
@@ -74,13 +74,13 @@ Qwen2.5-7B-Instruct를 사용해 합성 인스턴스 100개에 순차 근거 변
 ## 설치 및 빠른 실행
 
 ```bash
-git clone https://github.com/gangmurloc/DECAP.git
-cd DECAP
+git clone https://github.com/gangmurloc/ClaimPatch.git
+cd ClaimPatch
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 
-decap run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
+claimpatch run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
 pytest -q
 ```
 

@@ -1,4 +1,4 @@
-Task: typed dependency extraction for DECAP.
+Task: typed dependency extraction for ClaimPatch.
 
 Judge semantic dependency, not string similarity. A dependency exists when a
 change to the source claim would require revalidating the target claim.

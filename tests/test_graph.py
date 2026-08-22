@@ -1,9 +1,9 @@
 from copy import deepcopy
 
-from decap.data.synthetic_generator import generate_benchmark_instance
-from decap.graph.builder import validate_answer_graph
-from decap.graph.traversal import closure, descendants
-from decap.schemas.graph import DependencyEdge
+from claimpatch.data.synthetic_generator import generate_benchmark_instance
+from claimpatch.graph.builder import validate_answer_graph
+from claimpatch.graph.traversal import closure, descendants
+from claimpatch.schemas.graph import DependencyEdge
 
 
 def _answer():

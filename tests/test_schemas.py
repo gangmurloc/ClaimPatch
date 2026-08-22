@@ -1,8 +1,8 @@
 import pytest
 
-from decap.schemas import EvidenceRecord
-from decap.schemas.graph import DependencyEdge
-from decap.schemas.patches import PatchPrecondition, SemanticPatch
+from claimpatch.schemas import EvidenceRecord
+from claimpatch.schemas.graph import DependencyEdge
+from claimpatch.schemas.patches import PatchPrecondition, SemanticPatch
 
 
 def test_evidence_schema_valid():

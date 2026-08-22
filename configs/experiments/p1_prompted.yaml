@@ -1,6 +1,6 @@
 seed: 13
 run_id: p1_prompted_mock_100
-stage_title: DECAP P1 Prompted Structured Mock Experiment
+stage_title: ClaimPatch P1 Prompted Structured Mock Experiment
 output_dir: outputs/p1_prompted
 dataset:
   size: 100

@@ -1,4 +1,4 @@
-# DECAP seed2028 metadata ablation report
+# ClaimPatch seed2028 metadata ablation report
 
 This report compares the original held-out seed2028 run against soft and hard input-only metadata ablations. Gold labels, evaluator code, synthetic seed, model, prompt text, and schema-repair setting are intended to remain unchanged; only the impact-classification prompt input differs.
 
@@ -57,5 +57,5 @@ This report compares the original held-out seed2028 run against soft and hard in
 
 - If soft and hard both keep DCS high with low collateral, metadata was not carrying the result.
 - If soft degrades, explicit category labels were carrying the result.
-- If soft holds but hard degrades, DECAP partly depends on structured adapter metadata.
+- If soft holds but hard degrades, ClaimPatch partly depends on structured adapter metadata.
 - Treat `metric_revision_threshold_cross` under hard ablation as the strongest shortcut test.

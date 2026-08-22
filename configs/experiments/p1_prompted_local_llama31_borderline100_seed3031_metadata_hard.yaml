@@ -1,6 +1,6 @@
 seed: 3031
 run_id: p1_prompted_local_llama31_borderline100_seed3031_metadata_hard
-stage_title: DECAP P1 Local Llama 3.1 Borderline Held-Out 100 Seed 3031 Hard Metadata Ablation
+stage_title: ClaimPatch P1 Local Llama 3.1 Borderline Held-Out 100 Seed 3031 Hard Metadata Ablation
 output_dir: outputs/p1_prompted_local_llama31_borderline100_seed3031_metadata_hard
 dataset:
   size: 100

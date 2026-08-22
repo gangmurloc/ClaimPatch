@@ -8,7 +8,7 @@ The deterministic benchmark is fully generated from its YAML configuration:
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-decap run-p0 --config configs/experiments/p0_rule_based.yaml
+claimpatch run-p0 --config configs/experiments/p0_rule_based.yaml
 pytest -q
 ```
 
@@ -18,7 +18,7 @@ placeholder.
 ## Structured mock path
 
 ```bash
-decap run-p1 --config configs/experiments/p1_prompted.yaml --limit 4
+claimpatch run-p1 --config configs/experiments/p1_prompted.yaml --limit 4
 ```
 
 This verifies prompt rendering, JSON extraction, Pydantic validation, schema

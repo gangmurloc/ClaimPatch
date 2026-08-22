@@ -1,4 +1,4 @@
-# DECAP P1 Local Qwen Structured Held-Out 100 Seed 2028
+# ClaimPatch P1 Local Qwen Structured Held-Out 100 Seed 2028
 
 - instances: 100
 - sequential steps per instance: 1

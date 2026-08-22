@@ -1,6 +1,6 @@
 # Architecture
 
-DECAP stores an answer as a versioned set of claims, evidence bindings, and
+ClaimPatch stores an answer as a versioned set of claims, evidence bindings, and
 typed dependency hyperedges. An evidence update is processed in five stages.
 
 1. **Impact detection** identifies claims directly affected by the update.

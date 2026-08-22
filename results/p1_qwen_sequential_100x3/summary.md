@@ -1,4 +1,4 @@
-# DECAP P1 Local Qwen Structured Full 100x3
+# ClaimPatch P1 Local Qwen Structured Full 100x3
 
 - instances: 100
 - sequential steps per instance: 3

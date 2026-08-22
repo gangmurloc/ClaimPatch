@@ -1,6 +1,6 @@
 seed: 2028
 run_id: p1_prompted_local_qwen_heldout100_seed2028
-stage_title: DECAP P1 Local Qwen Structured Held-Out 100 Seed 2028
+stage_title: ClaimPatch P1 Local Qwen Structured Held-Out 100 Seed 2028
 output_dir: outputs/p1_prompted_local_qwen_heldout100_seed2028
 dataset:
   size: 100

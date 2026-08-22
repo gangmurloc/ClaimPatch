@@ -2,8 +2,8 @@ import json
 
 import numpy as np
 
-from decap.data.synthetic_generator import generate_benchmark_instance
-from decap.pipelines.prose_adapter import (
+from claimpatch.data.synthetic_generator import generate_benchmark_instance
+from claimpatch.pipelines.prose_adapter import (
     ExtractedClaim,
     ExtractedClaimGraph,
     ExtractedDependency,

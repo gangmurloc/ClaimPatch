@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" role="img" aria-labelledby="title desc">
   <title id="title">DCS versus collateral-edit trade-off</title>
-  <desc id="desc">Scatter plot comparing DECAP with four editing baselines on the 300-step synthetic Qwen diagnostic.</desc>
+  <desc id="desc">Scatter plot comparing ClaimPatch with four editing baselines on the 300-step synthetic Qwen diagnostic.</desc>
   <rect width="760" height="500" fill="#ffffff"/>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #24292f; }
@@ -38,7 +38,7 @@
   <text x="74" y="137" text-anchor="end" class="label">0.8</text>
   <text x="74" y="65" text-anchor="end" class="label">1.0</text>
   <circle cx="202" cy="125" r="9" fill="#0969da"/>
-  <text x="215" y="116" class="point-label">DECAP (0.183, 0.820)</text>
+  <text x="215" y="116" class="point-label">ClaimPatch (0.183, 0.820)</text>
   <circle cx="226" cy="240" r="7" fill="#8250df"/>
   <text x="239" y="235" class="point-label">Unstructured edit</text>
   <circle cx="90" cy="330" r="7" fill="#1a7f37"/>

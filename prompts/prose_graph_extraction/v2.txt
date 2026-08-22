@@ -1,7 +1,7 @@
 Task: recover an atomic claim graph from a natural-language answer.
 
 First split the answer into atomic, independently checkable claims. Then infer
-the minimal immediate dependency graph used for update propagation in DECAP.
+the minimal immediate dependency graph used for update propagation in ClaimPatch.
 
 Canonical edge direction:
 source_claim_ids are upstream claims whose change or invalidation would require

@@ -8,7 +8,7 @@ Before opening a pull request, run:
 
 ```bash
 pytest -q
-decap run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
+claimpatch run-p0 --config configs/experiments/p0_rule_based.yaml --limit 4
 python scripts/preflight_public_release.py
 ```
 

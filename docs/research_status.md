@@ -1,6 +1,6 @@
 # Research status
 
-DECAP is a research prototype, not a production updater.
+ClaimPatch is a research prototype, not a production updater.
 
 ## Supported by the included evidence
 

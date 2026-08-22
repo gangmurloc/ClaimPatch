@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from decap.data.synthetic_generator import generate_benchmark_instance
-from decap.baselines.minimal_edit_prompt import _normalize_unstructured_impact_labels, unstructured_selective_edit_patch
-from decap.models.structured_generation import extract_json_object, load_prompt
-from decap.pipelines.prompted_modules import (
+from claimpatch.data.synthetic_generator import generate_benchmark_instance
+from claimpatch.baselines.minimal_edit_prompt import _normalize_unstructured_impact_labels, unstructured_selective_edit_patch
+from claimpatch.models.structured_generation import extract_json_object, load_prompt
+from claimpatch.pipelines.prompted_modules import (
     PromptedPatchPipeline,
     _ablate_update_for_prompt,
     _repair_dependency_edge_payloads,
@@ -11,9 +11,9 @@ from decap.pipelines.prompted_modules import (
     _repair_impact_operation_consistency,
     _repair_semantic_patch_payload,
 )
-from decap.pipelines.run_experiment import run_p1_prompted
-from decap.schemas.patches import SemanticPatch
-from decap.schemas.updates import ImpactLabel
+from claimpatch.pipelines.run_experiment import run_p1_prompted
+from claimpatch.schemas.patches import SemanticPatch
+from claimpatch.schemas.updates import ImpactLabel
 
 
 def test_extract_json_object_from_wrapped_text():

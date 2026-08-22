@@ -3,8 +3,8 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "decap"
-version = "0.1.0"
+name = "claimpatch"
+version = "0.2.0"
 description = "Dependency-complete semantic patching for evolving LLM answers"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,7 +27,9 @@ local = [
 ]
 
 [project.scripts]
-decap = "decap.cli:main"
+claimpatch = "claimpatch.cli:main"
+# Backward-compatible command used by the unchanged legacy CI workflow.
+decap = "claimpatch.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -35,4 +37,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

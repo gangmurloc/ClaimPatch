@@ -13,7 +13,7 @@ State definitions:
 Use typed dependencies to propagate candidate impact, then semantically
 revalidate descendants. Do not mark every descendant MUST_CHANGE automatically.
 
-DECAP-specific decision rules:
+ClaimPatch-specific decision rules:
 - Numeric source claim changed -> mark that numeric claim MUST_CHANGE with
   gold_operation REPLACE.
 - In benchmark-result examples, use `update.metadata.attribute` as the slot

@@ -65,11 +65,11 @@ also always updates it under hold.
 
 ## Caveats
 
-- This does not make the full DECAP result multi-model. The complete held-out,
+- This does not make the full ClaimPatch result multi-model. The complete held-out,
   sequential, repair, and metadata suite remains primarily Qwen2.5-7B.
 - Llama's aggregate collateral is slightly worse than Qwen's on the hard-metadata
   borderline setting. The second-model result supports the failure-mode insight,
-  not a broad claim that DECAP performs equally across model families.
+  not a broad claim that ClaimPatch performs equally across model families.
 - The run uses the same synthetic borderline domain. It does not solve the
   real-world adapter/external-validity limitation.
 
@@ -84,4 +84,4 @@ Use:
 
 Avoid:
 
-> DECAP has been fully validated across model families.
+> ClaimPatch has been fully validated across model families.

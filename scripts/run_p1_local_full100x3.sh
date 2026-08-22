@@ -8,6 +8,6 @@ export TOKENIZERS_PARALLELISM=false
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
-python3 -m decap.cli run-p1 \
+python3 -m claimpatch.cli run-p1 \
   --config configs/experiments/p1_prompted_local_qwen_full100x3.yaml \
   "$@"

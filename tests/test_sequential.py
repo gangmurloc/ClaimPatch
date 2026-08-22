@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from decap.data.synthetic_generator import generate_synthetic_dataset
-from decap.pipelines.run_experiment import run_p0
+from claimpatch.data.synthetic_generator import generate_synthetic_dataset
+from claimpatch.pipelines.run_experiment import run_p0
 
 
 def test_generator_creates_requested_size():

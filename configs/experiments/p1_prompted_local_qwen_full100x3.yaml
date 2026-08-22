@@ -1,6 +1,6 @@
 seed: 13
 run_id: p1_prompted_local_qwen_full100x3
-stage_title: DECAP P1 Local Qwen Structured Full 100x3
+stage_title: ClaimPatch P1 Local Qwen Structured Full 100x3
 output_dir: outputs/p1_prompted_local_qwen_full100x3
 dataset:
   size: 100

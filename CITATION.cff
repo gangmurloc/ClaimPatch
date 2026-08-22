@@ -1,11 +1,10 @@
 cff-version: 1.2.0
 message: "If you use this research artifact, please cite the repository."
-title: "DECAP: Dependency-Complete Semantic Patching for Evolving LLM Answers"
+title: "ClaimPatch: Dependency-Complete Semantic Patching for Evolving LLM Answers"
 type: software
 authors:
   - family-names: Lee
     given-names: Ganggil
-repository-code: "https://github.com/gangmurloc/DECAP"
-version: 0.1.0
-date-released: 2026-08-12
-
+repository-code: "https://github.com/gangmurloc/ClaimPatch"
+version: 0.2.0
+date-released: 2026-08-22

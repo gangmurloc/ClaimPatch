@@ -2,6 +2,7 @@ import csv
 import gc
 import json
 import platform
+import subprocess
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -38,20 +39,77 @@ def _load_config(path: Path) -> Dict[str, Any]:
 
 
 def _git_commit() -> str:
-    import subprocess
-
     try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True).strip()
+        repository_root = Path(__file__).resolve().parents[3]
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repository_root,
+            stderr=subprocess.DEVNULL,
+            text=True,
+        ).strip()
     except Exception:
         return "unavailable"
 
 
-def _environment() -> Dict[str, Any]:
+def _git_dirty() -> Any:
+    try:
+        repository_root = Path(__file__).resolve().parents[3]
+        status = subprocess.check_output(
+            ["git", "status", "--porcelain"],
+            cwd=repository_root,
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
+        return bool(status.strip())
+    except Exception:
+        return "unavailable"
+
+
+def _resolved_model_revision(client: Any) -> Any:
+    if client is None:
+        return None
+    model_config = getattr(getattr(client, "model", None), "config", None)
+    revision = getattr(model_config, "_commit_hash", None)
+    if revision:
+        return revision
+    tokenizer_kwargs = getattr(getattr(client, "tokenizer", None), "init_kwargs", {})
+    if isinstance(tokenizer_kwargs, dict):
+        return tokenizer_kwargs.get("_commit_hash") or tokenizer_kwargs.get("revision")
+    return None
+
+
+def _environment(config: Dict[str, Any], shared_client: Any = None) -> Dict[str, Any]:
+    model_config = dict(config.get("model", {}))
+    model = {
+        "backend": model_config.get("backend", "none"),
+        "identifier": model_config.get("model_name"),
+        "requested_revision": model_config.get("revision"),
+        "resolved_revision": _resolved_model_revision(shared_client),
+        "torch_dtype": model_config.get("torch_dtype"),
+        "device_map": model_config.get("device_map"),
+        "load_in_4bit": bool(model_config.get("load_in_4bit", False)),
+        "do_sample": bool(model_config.get("do_sample", False)),
+        "max_new_tokens": model_config.get("max_new_tokens"),
+    }
+    runtime: Dict[str, Any] = {}
+    try:
+        import torch
+
+        runtime["torch"] = torch.__version__
+        runtime["cuda_runtime"] = torch.version.cuda
+        runtime["cudnn"] = torch.backends.cudnn.version() if torch.backends.cudnn.is_available() else None
+        runtime["cuda_available"] = torch.cuda.is_available()
+        if torch.cuda.is_available():
+            runtime["gpu"] = torch.cuda.get_device_name(torch.cuda.current_device())
+    except Exception as exc:
+        runtime["torch_capture_error"] = type(exc).__name__
     return {
         "python": platform.python_version(),
         "platform": platform.platform(),
         "git_commit": _git_commit(),
-        "model": "none-rule-based-p0",
+        "git_dirty": _git_dirty(),
+        "model": model,
+        "runtime": runtime,
     }
 
 
@@ -174,15 +232,14 @@ def _release_accelerator_memory() -> None:
 
 
 def _shared_llm_client_for_run(systems: List[str], config: Dict[str, Any]) -> Any:
-    """Reuse one local LLM for ClaimPatch and graph-free LLM baselines.
+    """Load one run-level local LLM for prompted systems.
 
-    Loading Qwen once per prompted system can exceed 24GB GPUs. When the main
-    P1 system and the unstructured LLM baseline are evaluated in one process,
-    they should share the same client and differ only in prompts/context.
+    Besides preventing duplicate GPU loads, retaining the client at run scope
+    lets the environment recorder capture the model's resolved revision.
     """
 
     prompt_systems = {"p1_prompted_local", "unstructured_selective_edit"}
-    if len(prompt_systems.intersection(systems)) < 2:
+    if not prompt_systems.intersection(systems):
         return None
     model_config = dict(config.get("model", {}))
     if model_config.get("backend", "mock") == "mock":
@@ -553,7 +610,10 @@ def run_p0(config_path: Path, limit: int = None) -> Path:
         )
     (output_dir / "bootstrap_ci.csv").write_text(bootstrap_text, encoding="utf-8")
     (output_dir / "config.yaml").write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
-    (output_dir / "environment.json").write_text(json.dumps(_environment(), indent=2), encoding="utf-8")
+    (output_dir / "environment.json").write_text(
+        json.dumps(_environment(config, shared_client=shared_client), indent=2),
+        encoding="utf-8",
+    )
     elapsed = time.time() - start
     lines = [
         f"# {stage_title}",

@@ -102,6 +102,14 @@ Exact aggregate files are under
 Held-out, metadata-ablation, and second-model diagnostics are summarized in
 [`results/diagnostics/`](results/diagnostics/).
 
+> **Reproducibility note.** The reported Qwen run is a historical diagnostic,
+> not a bitwise-reproducible model run: its model revision and source commit
+> were not captured, and its raw generations are not distributed. The current
+> code records model/source/runtime provenance for future runs, while the
+> deterministic P0 path and unit tests remain directly reproducible. See the
+> [archived environment record](environment/reported_qwen_run.md) for the exact
+> boundary between captured facts and later reconstruction.
+
 The DCS–collateral-edit trade-off is shown below. The aggressive descendant-all
 policy maximizes DCS by editing more valid claims, whereas ClaimPatch occupies
 a more selective operating point.
@@ -124,6 +132,10 @@ use the optional dependencies:
 ```bash
 pip install -e ".[dev,local]"
 ```
+
+The command name is `claimpatch`. A deprecated `decap` alias is retained only
+for compatibility with the repository's legacy CI invocation and may be
+removed after that workflow is migrated.
 
 ## Quick start
 

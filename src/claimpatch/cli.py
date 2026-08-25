@@ -1,4 +1,5 @@
 import argparse
+import sys
 from pathlib import Path
 
 from claimpatch.data.loaders import write_jsonl
@@ -13,6 +14,11 @@ from claimpatch.pipelines.run_experiment import run_p0, run_p1_prompted
 
 
 def main() -> None:
+    if Path(sys.argv[0]).name == "decap":
+        print(
+            "warning: the 'decap' command is a temporary compatibility alias; use 'claimpatch' instead",
+            file=sys.stderr,
+        )
     parser = argparse.ArgumentParser(prog="claimpatch")
     sub = parser.add_subparsers(dest="command", required=True)
 

@@ -14,7 +14,7 @@ applies that patch transactionally.
 
 This is a compact research artifact extracted from a larger experimental
 workspace. It contains the executable core, prompts, reproducible synthetic
-benchmark generator, representative aggregate results, and 53 unit tests. Raw
+benchmark generator, representative aggregate results, and 54 unit tests. Raw
 model outputs, local checkpoints, caches, and exploratory runs are intentionally
 excluded.
 
